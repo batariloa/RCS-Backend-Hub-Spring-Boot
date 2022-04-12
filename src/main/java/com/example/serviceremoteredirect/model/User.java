@@ -1,0 +1,73 @@
+package com.example.serviceremoteredirect.model;
+
+
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+
+@Component
+@Entity(name="user_service")
+public class User {
+	
+	
+	 @Id
+	 @GeneratedValue(strategy = GenerationType.AUTO)
+	 private Long id;
+
+
+
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+	private String role;
+
+	@Size(min=1)
+	@Column(unique=true)
+	private String email;
+	@Size(min = 5)
+	private String password;
+
+	private String ipAdress;
+
+	public String getIpAdress() {
+		return ipAdress;
+	}
+
+	public void setIpAdress(String ipAdress) {
+		this.ipAdress = ipAdress;
+	}
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public User() {
+		super();
+	}
+
+
+
+
+}
