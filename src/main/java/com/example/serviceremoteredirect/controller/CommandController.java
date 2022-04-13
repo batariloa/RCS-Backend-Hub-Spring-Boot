@@ -1,31 +1,27 @@
 package com.example.serviceremoteredirect.controller;
 
-import com.example.serviceremoteredirect.model.Command;
 import com.example.serviceremoteredirect.model.CommandResponse;
-import com.example.serviceremoteredirect.model.CommandType;
-import com.example.serviceremoteredirect.storage.CommandStorage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.example.serviceremoteredirect.model.Status;
+import com.example.serviceremoteredirect.utility.CommandManager;
+import com.example.serviceremoteredirect.utility.StatusManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CommandController {
 
-    @Autowired
-    CommandStorage storage;
+  @Autowired
+  CommandManager commandManager;
 
+  @Autowired
+  StatusManager statusManager;
 
     @PostMapping("/torrent")
-    String addTorrent(@RequestParam String magnetLink, String username){
+    String addTorrent(@RequestParam String username , String magnetLink){
 
 
-        storage.getCommandMap().get("username").add(new Command(CommandType.TORRENT, magnetLink));
+      commandManager.addTorrent(username,magnetLink);
 
         return "Magnet link added.";
     }
@@ -34,34 +30,56 @@ public class CommandController {
     String addMonkey(@RequestParam String username){
 
 
-        storage.addMonkey(username);
+        commandManager.addMonkey(username);
         System.out.println("Dodat monkey");
 
         return "Magnet link added.";
     }
 
-    @GetMapping("/add")
-    void add(){
 
-        storage.add("1");
+    @PostMapping("/shutdown")
+    String shutDown(@RequestParam String username){
 
 
+        commandManager.addShutdown(username);
+        System.out.println("Dodat shutdown");
+
+        return "Magnet link added.";
     }
 
-   @GetMapping("/controls")
-   CommandResponse getControlls(@RequestParam String username){
+    @PostMapping("/terminal")
+    String terminalCommand(@RequestParam String username, String command){
+
+
+        commandManager.addTerminal(username,command);
+        System.out.println("Added terminal command");
+
+        return "Magnet link added.";
+    }
+
+
+   @PostMapping ("/controls")
+   CommandResponse getControlls(@RequestParam String username, @RequestBody Status status){
 
        System.out.println("username je " + username);
+       System.out.println("A status je " + status.getDiskSpaceTotal());
 
 
+       statusManager.updateStatusForUser(username, status);
 
-       CommandResponse cmd = new CommandResponse();
-       cmd.setCommands(new ArrayList<>());
-       if(storage.getCommandMap().containsKey(username))
-       cmd = new CommandResponse(storage.getCommandMap().get(username));
-       storage.getCommandMap().put(username, new ArrayList<>());
-       return cmd;
+       return commandManager.provideCommandsFromStorage(username);
    }
+
+
+
+    @GetMapping("/getStatus")
+    Status getStatus(@RequestParam String username){
+        System.out.println("Pozvan je getStatus");
+        System.out.println(statusManager.getStatusForUser(username).toString());
+        return statusManager.getStatusForUser(username);
+    }
+
+
 
 
 }
