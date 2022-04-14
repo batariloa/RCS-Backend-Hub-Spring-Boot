@@ -1,6 +1,6 @@
 package com.example.serviceremoteredirect.service;
 
-import com.example.serviceremoteredirect.model.User;
+import com.example.serviceremoteredirect.entity.User;
 import com.example.serviceremoteredirect.security.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

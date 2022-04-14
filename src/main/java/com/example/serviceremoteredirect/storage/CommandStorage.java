@@ -3,10 +3,6 @@ package com.example.serviceremoteredirect.storage;
 import com.example.serviceremoteredirect.model.Command;
 import com.example.serviceremoteredirect.model.CommandResponse;
 import com.example.serviceremoteredirect.model.CommandType;
-import com.example.serviceremoteredirect.model.Status;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

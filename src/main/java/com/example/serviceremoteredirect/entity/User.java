@@ -1,4 +1,4 @@
-package com.example.serviceremoteredirect.model;
+package com.example.serviceremoteredirect.entity;
 
 
 import org.springframework.stereotype.Component;

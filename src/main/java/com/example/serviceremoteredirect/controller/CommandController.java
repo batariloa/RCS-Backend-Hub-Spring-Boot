@@ -1,9 +1,12 @@
 package com.example.serviceremoteredirect.controller;
 
+import com.example.serviceremoteredirect.entity.LoggedAccess;
 import com.example.serviceremoteredirect.model.CommandResponse;
 
-import com.example.serviceremoteredirect.model.Status;
+import com.example.serviceremoteredirect.entity.MemoryStatus;
+import com.example.serviceremoteredirect.repository.LoggedAccessRepository;
 import com.example.serviceremoteredirect.utility.CommandManager;
+import com.example.serviceremoteredirect.utility.JpaUtility;
 import com.example.serviceremoteredirect.utility.StatusManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,12 @@ public class CommandController {
 
   @Autowired
   StatusManager statusManager;
+
+  @Autowired
+    JpaUtility jpaUtility;
+
+  @Autowired
+  LoggedAccessRepository loggedAccessRepository;
 
     @PostMapping("/torrent")
     String addTorrent(@RequestParam String username , String magnetLink){
@@ -59,21 +68,28 @@ public class CommandController {
 
 
    @PostMapping ("/controls")
-   CommandResponse getControlls(@RequestParam String username, @RequestBody Status status){
-
-       System.out.println("username je " + username);
-       System.out.println("A status je " + status.getDiskSpaceTotal());
+   CommandResponse getControlls( @RequestBody LoggedAccess access){
 
 
-       statusManager.updateStatusForUser(username, status);
 
-       return commandManager.provideCommandsFromStorage(username);
+       System.out.println("Passed username is " +access.getUsername());
+       System.out.println("Status is " + access.getStatus().getDiskSpaceTotal());
+       System.out.println("Location is " + access.getLocation().getCountry().toString());
+       System.out.println("Location is " + access.getLocation().getIp());
+
+
+       jpaUtility.validateBeforeSaving(access);
+
+
+       statusManager.updateStatusForUser(access.getUsername(), access.getStatus());
+
+       return commandManager.provideCommandsFromStorage(access.getUsername());
    }
 
 
 
     @GetMapping("/getStatus")
-    Status getStatus(@RequestParam String username){
+    MemoryStatus getStatus(@RequestParam String username){
         System.out.println("Pozvan je getStatus");
         System.out.println(statusManager.getStatusForUser(username).toString());
         return statusManager.getStatusForUser(username);
