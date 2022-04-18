@@ -2,7 +2,7 @@ package com.example.serviceremoteredirect.globalVariables;
 
 public enum KafkaConstants {
 
-    COMMANDS("commands"), CSUS("");
+    COMMANDS("commands");
 
 
     private final String text;
