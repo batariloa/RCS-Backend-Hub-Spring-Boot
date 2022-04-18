@@ -1,4 +1,4 @@
-package com.example.serviceremoteredirect.security;
+package com.example.serviceremoteredirect.config;
 
 
 import com.example.serviceremoteredirect.jwt.JwtFilter;
@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/authenticate","/controls*","/postStatus*")
+				.antMatchers("/authenticate","/controls*","/postStatus*","/publish/*" ,"/terminal*")
 				.permitAll()
 				.anyRequest()
 				.authenticated()

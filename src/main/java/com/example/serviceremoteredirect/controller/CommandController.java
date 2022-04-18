@@ -1,24 +1,22 @@
 package com.example.serviceremoteredirect.controller;
 
 import com.example.serviceremoteredirect.entity.LoggedAccess;
+import com.example.serviceremoteredirect.globalVariables.KafkaConstants;
+import com.example.serviceremoteredirect.model.Command;
 import com.example.serviceremoteredirect.model.CommandResponse;
 
 import com.example.serviceremoteredirect.entity.MemoryStatus;
+import com.example.serviceremoteredirect.model.CommandType;
 import com.example.serviceremoteredirect.repository.LoggedAccessRepository;
-import com.example.serviceremoteredirect.utility.CommandManager;
 import com.example.serviceremoteredirect.utility.JpaUtility;
-import com.example.serviceremoteredirect.utility.StatusManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CommandController {
 
-  @Autowired
-  CommandManager commandManager;
 
-  @Autowired
-  StatusManager statusManager;
 
   @Autowired
     JpaUtility jpaUtility;
@@ -26,11 +24,32 @@ public class CommandController {
   @Autowired
   LoggedAccessRepository loggedAccessRepository;
 
+    // Autowiring Kafka Template
+    @Autowired
+    KafkaTemplate<String, Command> kafkaTemplate;
+
+    @PostMapping("/terminal")
+    String terminalCommand(@RequestParam String username,@RequestParam String command){
+
+
+        kafkaTemplate.send(
+                KafkaConstants.COMMANDS.toString(),
+                new Command(username,CommandType.TERMINAL,command));
+
+        System.out.println("Added terminal command for username '"+username+"'");
+
+        return "Terminal command sent.";
+    }
+
+
+
     @PostMapping("/torrent")
     String addTorrent(@RequestParam String username , String magnetLink){
 
 
-      commandManager.addTorrent(username,magnetLink);
+        kafkaTemplate.send(
+                KafkaConstants.COMMANDS.toString(),
+                new Command(username,CommandType.TORRENT,magnetLink));
 
         return "Magnet link added.";
     }
@@ -39,8 +58,10 @@ public class CommandController {
     String addMonkey(@RequestParam String username){
 
 
-        commandManager.addMonkey(username);
-        System.out.println("Dodat monkey");
+
+        kafkaTemplate.send(
+                KafkaConstants.COMMANDS.toString(),
+                new Command(username,CommandType.MONKEY));
 
         return "Magnet link added.";
     }
@@ -50,50 +71,20 @@ public class CommandController {
     String shutDown(@RequestParam String username){
 
 
-        commandManager.addShutdown(username);
-        System.out.println("Dodat shutdown");
+        kafkaTemplate.send(
+                KafkaConstants.COMMANDS.toString(),
+                new Command(username,CommandType.TORRENT));
 
-        return "Magnet link added.";
-    }
+        System.out.println("Sent shutdown command.");
 
-    @PostMapping("/terminal")
-    String terminalCommand(@RequestParam String username, String command){
-
-
-        commandManager.addTerminal(username,command);
-        System.out.println("Added terminal command");
-
-        return "Magnet link added.";
+        return "Sent shutdown command.";
     }
 
 
-   @PostMapping ("/controls")
-   CommandResponse getControlls( @RequestBody LoggedAccess access){
 
 
 
-       System.out.println("Passed username is " +access.getUsername());
-       System.out.println("Status is " + access.getStatus().getDiskSpaceTotal());
-       System.out.println("Location is " + access.getLocation().getCountry().toString());
-       System.out.println("Location is " + access.getLocation().getIp());
 
-
-       jpaUtility.validateBeforeSaving(access);
-
-
-       statusManager.updateStatusForUser(access.getUsername(), access.getStatus());
-
-       return commandManager.provideCommandsFromStorage(access.getUsername());
-   }
-
-
-
-    @GetMapping("/getStatus")
-    MemoryStatus getStatus(@RequestParam String username){
-        System.out.println("Pozvan je getStatus");
-        System.out.println(statusManager.getStatusForUser(username).toString());
-        return statusManager.getStatusForUser(username);
-    }
 
 
 
