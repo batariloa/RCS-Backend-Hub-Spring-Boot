@@ -13,6 +13,8 @@ import sun.tools.jar.CommandLine;
 public class ServiceRemoteRedirectApplication {
 
     public static void main(String[] args) {
+
+
         SpringApplication.run(ServiceRemoteRedirectApplication.class, args);
     }
 
