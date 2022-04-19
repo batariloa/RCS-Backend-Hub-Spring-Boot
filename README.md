@@ -4,6 +4,16 @@
 REST API that allows the users to remotely control their computer, using a registered account. 
 Some of the available commands are: starting torrent downloads, shutting off the computer, sending commands to the bash terminal. 
 
+Some of the technologies that complement the application are:
+
+* Spring Boot
+* Spring Security
+* Spring JPA Data
+* JWT Authentication
+* Zookeeper server and Kafka MQ
+* MySQL Server
+* AngularJS/Typescript
+
 
 ## GENERAL
 
