@@ -12,7 +12,7 @@ Some of the technologies that complement the application are:
 * JWT Authentication
 * Zookeeper server and Kafka MQ
 * MySQL Server
-* AngularJS/Typescript
+* AngularJS/Typescript on the frontend
 
 
 ## GENERAL
