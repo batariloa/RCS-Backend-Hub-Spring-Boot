@@ -4,6 +4,16 @@
 REST API that allows the users to remotely control their computer, using a registered account. 
 Some of the available commands are: starting torrent downloads, shutting off the computer, sending commands to the bash terminal. 
 
+Some of the technologies that complement the application are:
+
+* Spring Boot
+* Spring Security
+* Spring JPA Data
+* JWT Authentication
+* Zookeeper server and Kafka MQ
+* MySQL Server
+* AngularJS/Typescript on the frontend
+
 
 ## GENERAL
 
@@ -14,14 +24,17 @@ This project consists of three components:
 This component is hosted on a server, and it serves as a hub. It authenticates users, using Spring Security and JWT, using an API call to "/authenticate". with user credentials.
 After authenticated, this service connect the user to the proper PC, using the username as an indentificator. 
 
-This component stores and manages commands sent by users, and also the status messages and properties provided by the local service, on client's PC.
-Commands and status objects are being stored in HashMaps, with the key corresponding to the username.
+When the frontend requests a command to be executed on the users machine, the hub queues the command inside a Kafka MQ server.
+
+This component stores and manages statistics sent by users, provided by the local service, running on the client's PC.
+Status objects are being stored in HashMaps, with the key corresponding to the username.
 
 
 ### The Local Service
 
-The local service is a service that runs on the client's PC. It connects to the hub service, and consumes the commands to be executed, as well as provides the status data to the hub service.
-This one is the only service a consumer requires. It requires a configuration file, that sets the client's username, so that the appropriate commands can  be executed.
+The local service is a service that runs on the client's PC. It connects to the hub service, and consumes the commands JMS from the "commands" topic inside the Kafka MQ server. Before connecting to the MQ, the data gathered from the local machine is being sent to the hub, stored in a MySQL database for statistics.
+
+This service is the only one a consumer requires. It requires a configuration file, that sets the client's username, so that the appropriate commands can  be executed.
 
 Source code can be found [here](https://github.com/batariloa/RCS-Local-Service).
 
