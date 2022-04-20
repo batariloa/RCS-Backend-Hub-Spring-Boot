@@ -12,10 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Component
-@Data
 public class OperatingSystem {
 
     @Id
@@ -27,7 +25,11 @@ public class OperatingSystem {
     private String version;
 
 
-
+    public OperatingSystem(){
+        this.name = "Unknown";
+        this.architecture = "Unknown";
+        this.version = "Unknown";
+    }
 
 
 

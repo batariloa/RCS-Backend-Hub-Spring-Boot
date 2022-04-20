@@ -1,0 +1,19 @@
+= Weather API REST Docs
+
+This is an example output for a service running at http://localhost:8080:
+
+.request
+include::{snippets}/integrationTest/http-request.adoc[]
+
+.response
+include::{snippets}/integrationTest/http-response.adoc[]
+
+= Authentication
+
+The following request results in a response with a JWT token, that can be used for making further authenticated requests.
+
+.request
+include::{snippets}/testAuthenticate/http-request.adoc[]
+
+.response
+include::{snippets}/testAuthenticate/http-response.adoc[]

@@ -8,7 +8,6 @@ import com.example.serviceremoteredirect.model.CommandResponse;
 import com.example.serviceremoteredirect.entity.MemoryStatus;
 import com.example.serviceremoteredirect.model.CommandType;
 import com.example.serviceremoteredirect.repository.LoggedAccessRepository;
-import com.example.serviceremoteredirect.utility.JpaUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class CommandController {
 
-
-
-  @Autowired
-    JpaUtility jpaUtility;
 
   @Autowired
   LoggedAccessRepository loggedAccessRepository;

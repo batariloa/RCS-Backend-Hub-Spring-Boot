@@ -7,8 +7,6 @@ import javax.persistence.*;
 
 
 @Entity
-
-@Data
 public class MemoryStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +16,29 @@ public class MemoryStatus {
     private long diskSpaceUsable;
     private long diskSpaceTotal;
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public long getDiskSpaceUsable() {
+        return diskSpaceUsable;
+    }
+
+    public void setDiskSpaceUsable(long diskSpaceUsable) {
+        this.diskSpaceUsable = diskSpaceUsable;
+    }
+
+    public long getDiskSpaceTotal() {
+        return diskSpaceTotal;
+    }
+
+    public void setDiskSpaceTotal(long diskSpaceTotal) {
+        this.diskSpaceTotal = diskSpaceTotal;
+    }
 
     public Long getId() {
         return id;
@@ -29,6 +49,7 @@ public class MemoryStatus {
     }
 
     public MemoryStatus() {
+        this.id = 0L;
         this.status = "Status not found yet...";
         this.diskSpaceUsable = 0;
         this.diskSpaceTotal =  0;

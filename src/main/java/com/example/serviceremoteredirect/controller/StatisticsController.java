@@ -23,6 +23,7 @@ public class StatisticsController {
     String logAccess( @RequestBody LoggedAccess loggedAccess) {
 
 
+
         statusManager.updateStatusForUser(loggedAccess.getUsername(),loggedAccess.getStatus());
         loggedAccessRepository.save(loggedAccess);
         return "Statistics sent.";
@@ -32,7 +33,10 @@ public class StatisticsController {
     @GetMapping("/status")
     MemoryStatus getMemoryStatus(@RequestParam String username){
 
+        if(statusManager.getStatusForUser(username)!=null)
         return statusManager.getStatusForUser(username);
+
+        return new MemoryStatus();
     }
 
 }
