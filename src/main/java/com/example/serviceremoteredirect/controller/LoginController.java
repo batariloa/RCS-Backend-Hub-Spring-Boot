@@ -1,15 +1,20 @@
 package com.example.serviceremoteredirect.controller;
 
 
+import com.example.serviceremoteredirect.entity.User;
 import com.example.serviceremoteredirect.jwt.JWTUtility;
 import com.example.serviceremoteredirect.model.JwtRequest;
 import com.example.serviceremoteredirect.model.JwtResponse;
+import com.example.serviceremoteredirect.model.RegisterRequest;
+import com.example.serviceremoteredirect.repository.UserRepository;
 import com.example.serviceremoteredirect.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +31,11 @@ public class LoginController {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest request) throws Exception {
 
@@ -49,6 +59,20 @@ public class LoginController {
 
 
 
-        return new JwtResponse(token, "94.189.234.3");
+        return new JwtResponse(token);
+    }
+    @PostMapping(value="/register")
+    public String registerUser(@RequestBody RegisterRequest request){
+
+        if(userRepository.existsByEmail(request.getEmail()))
+            return "User already exists.";
+
+        User user = new User(request.getEmail(), passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+
+
+        return "User saved.";
+
+
     }
 }

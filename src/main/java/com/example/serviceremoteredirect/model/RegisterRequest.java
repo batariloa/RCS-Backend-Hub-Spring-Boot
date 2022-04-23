@@ -1,15 +1,14 @@
 package com.example.serviceremoteredirect.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class JwtResponse {
+@NoArgsConstructor
+public class RegisterRequest {
 
-    private String jwtToken;
-
+    private String email;
+    private String password;
 }

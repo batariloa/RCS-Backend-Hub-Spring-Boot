@@ -14,7 +14,10 @@ public class StatusManager {
 
     public MemoryStatus getStatusForUser(String username){
 
+        if(storage.getStatusForUser(username)!=null)
         return storage.getStatusForUser(username);
+
+        return new MemoryStatus();
     }
 
     public void updateStatusForUser(String username, MemoryStatus status){
