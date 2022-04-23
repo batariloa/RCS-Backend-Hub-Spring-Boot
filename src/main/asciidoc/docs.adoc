@@ -1,6 +1,6 @@
-= Weather API REST Docs
+= RCS Remote Service
 
-This is an example output for a service running at http://localhost:8080:
+Available REST API calls to the hub:
 
 .request
 include::{snippets}/integrationTest/http-request.adoc[]

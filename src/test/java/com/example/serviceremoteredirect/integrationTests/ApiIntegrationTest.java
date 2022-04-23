@@ -1,4 +1,4 @@
-package com.example.serviceremoteredirect.controller;
+package com.example.serviceremoteredirect.integrationTests;
 
 
 import org.junit.After;
@@ -35,8 +35,6 @@ public class ApiIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
-
-
     @Value("${admin.username}")
     private String username;
 
@@ -62,13 +60,13 @@ public class ApiIntegrationTest {
 
       MvcResult result =  mvc.perform(request)
 
-                .andExpect(status().isOk())
+              .andExpect(status().isOk())
               .andExpect(jsonPath("$.id").exists())
               .andExpect(jsonPath("$.diskSpaceTotal").exists())
               .andExpect(jsonPath("$.diskSpaceUsable").exists())
               .andExpect(jsonPath("$.status").exists())
               .andDo(document("{methodName}"
-                      , preprocessRequest(prettyPrint())
+                      ,preprocessRequest(prettyPrint())
                       ,preprocessResponse(prettyPrint())
                       ,responseFields(
                               fieldWithPath("id").description("Unique id of this status."),

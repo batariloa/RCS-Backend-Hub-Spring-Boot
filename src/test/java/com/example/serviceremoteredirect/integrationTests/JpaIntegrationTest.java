@@ -1,4 +1,4 @@
-package com.example.serviceremoteredirect.controller;
+package com.example.serviceremoteredirect.integrationTests;
 
 
 import com.example.serviceremoteredirect.entity.LoggedAccess;
@@ -22,13 +22,12 @@ public class JpaIntegrationTest {
     @Autowired
     LocationRepository locationRepository;
 
-@Test
+    @Test
     public void assertLoggedAccessIdNotNull() {
 
     LoggedAccess loggedAccess = LoggedAccess.builder()
                     .username("TestJPA")
                             .build();
-
 
     loggedAccessRepository.save(loggedAccess);
     Assertions.assertNotNull(loggedAccess.getId());
@@ -41,7 +40,6 @@ public class JpaIntegrationTest {
         LoggedAccess loggedAccess = LoggedAccess.builder()
                 .username("TestJPA")
                 .build();
-
 
         loggedAccessRepository.save(loggedAccess);
         Assertions.assertEquals(loggedAccess.getUsername(), "TestJPA");

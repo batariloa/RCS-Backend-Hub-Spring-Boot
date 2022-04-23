@@ -1,4 +1,4 @@
-package com.example.serviceremoteredirect.controller;
+package com.example.serviceremoteredirect.integrationTests;
 
 import com.example.serviceremoteredirect.jwt.JWTUtility;
 
@@ -53,8 +53,6 @@ public class LoginControllerTest {
 
     @Value("${admin.password}")
     private String password;
-
-
 
 
 
