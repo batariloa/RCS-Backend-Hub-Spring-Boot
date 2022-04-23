@@ -32,9 +32,9 @@ Status objects are being stored in HashMaps, with the key corresponding to the u
 
 ### The Local Service
 
-The local service is a service that runs on the client's PC. It connects to the hub service, and consumes the commands JMS from the "commands" topic inside the Kafka MQ server. Before connecting to the MQ, the data gathered from the local machine is being sent to the hub, stored in a MySQL database for statistics.
+The local service is a service that runs on the client's PC. It connects to the hub service, and consumes the JMS messages from the "commands" topic inside the Kafka MQ server. Before connecting to the MQ, the data gathered from the local machine is being sent to the hub, stored in a MySQL database for statistics.
 
-This service is the only one a consumer requires. It requires a configuration file, that sets the client's username, so that the appropriate commands can  be executed.
+This service is the only one a user requires. It requires a configuration file, that sets the client's username, so that the appropriate commands can  be executed.
 
 Source code can be found [here](https://github.com/batariloa/RCS-Local-Service).
 
