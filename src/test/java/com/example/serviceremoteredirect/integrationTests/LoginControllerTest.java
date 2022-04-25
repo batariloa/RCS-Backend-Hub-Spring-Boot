@@ -2,10 +2,12 @@ package com.example.serviceremoteredirect.integrationTests;
 
 import com.example.serviceremoteredirect.jwt.JWTUtility;
 
+import com.example.serviceremoteredirect.repository.UserRepository;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.regex.Pattern;
 
+import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -55,7 +58,8 @@ public class LoginControllerTest {
     private String password;
 
 
-
+    @Autowired
+    UserRepository userRepository;
 
 @Test
 public void testAuthenticate() throws Exception {
@@ -82,6 +86,20 @@ public void testAuthenticate() throws Exception {
 
 
 }
+
+    @Test
+    public void testRegisterUser() throws Exception {
+        RequestBuilder request  = MockMvcRequestBuilders
+                .post("/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":  \"testJpaUser@gmail.com\",  \"password\": \"123456\" }");
+        mvc.perform(request)
+                .andExpect(status().isOk());
+
+       Assertions.assertTrue(userRepository.existsByEmail("testJpaUser@gmail.com"));
+
+
+    }
 
 
 } 

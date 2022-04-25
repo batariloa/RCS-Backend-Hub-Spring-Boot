@@ -45,4 +45,6 @@ public class JpaIntegrationTest {
         Assertions.assertEquals(loggedAccess.getUsername(), "TestJPA");
 
     }
+
+
 }
