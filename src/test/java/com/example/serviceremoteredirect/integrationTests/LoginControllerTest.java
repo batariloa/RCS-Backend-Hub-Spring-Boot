@@ -60,7 +60,7 @@ public void testAuthenticate() throws Exception {
 
             .post("/authenticate")
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"username\":  \""+username+
+            .content("{\"email\":  \""+username+
                     "\",  \"password\": \"" +password+"\" }");
 
               mvc.perform(request)
@@ -71,8 +71,7 @@ public void testAuthenticate() throws Exception {
                             replacePattern(Pattern.compile(password),"Entered password"))
                     ,preprocessResponse(prettyPrint())
                     ,responseFields(
-                            fieldWithPath("jwtToken").description("token"),
-                            fieldWithPath("ipAdress").description("IP adress of the client")
+                            fieldWithPath("jwtToken").description("token")
                     )))
             .andReturn();
 

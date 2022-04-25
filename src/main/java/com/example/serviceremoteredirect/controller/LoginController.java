@@ -43,7 +43,7 @@ public class LoginController {
 
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
+                            request.getEmail(),
                             request.getPassword()
                     )
             );
@@ -54,7 +54,7 @@ public class LoginController {
 
         }
 
-        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(request.getUsername());
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(request.getEmail());
         final String token = jwtUtility.generateToken(userDetails);
 
 
