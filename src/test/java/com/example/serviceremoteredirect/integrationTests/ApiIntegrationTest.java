@@ -30,36 +30,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 public class ApiIntegrationTest {
-
-
     @Autowired
     private MockMvc mvc;
 
     @Value("${admin.username}")
     private String username;
 
-    @Value("${admin.password}")
-    private String password;
-
-
-
-    @Before
-    public void before()  {
-    }
-
-    @After
-    public void after()  {
-    }
-
-
     @Test
     @WithMockUser(username = "SomeUser", password = "123456")
-    public void integrationTest() throws Exception {
+    public void integrationStatusTest() throws Exception {
         RequestBuilder request  = MockMvcRequestBuilders
                 .get("/status?username="+username);
 
-      MvcResult result =  mvc.perform(request)
-
+                mvc.perform(request)
               .andExpect(status().isOk())
               .andExpect(jsonPath("$.id").exists())
               .andExpect(jsonPath("$.diskSpaceTotal").exists())

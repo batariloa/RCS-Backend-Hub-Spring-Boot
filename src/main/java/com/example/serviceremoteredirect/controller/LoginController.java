@@ -6,6 +6,7 @@ import com.example.serviceremoteredirect.jwt.JWTUtility;
 import com.example.serviceremoteredirect.model.JwtRequest;
 import com.example.serviceremoteredirect.model.JwtResponse;
 import com.example.serviceremoteredirect.model.RegisterRequest;
+import com.example.serviceremoteredirect.model.GenericResponse;
 import com.example.serviceremoteredirect.repository.UserRepository;
 import com.example.serviceremoteredirect.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,42 +37,38 @@ public class LoginController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest request) throws Exception {
 
         try {
-
+            System.out.println(request.getEmail() + " Email "+ request.getPassword() + " Pass");
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getEmail(),
-                            request.getPassword()
-                    )
-            );
+                            request.getPassword()));
         }
         catch (BadCredentialsException e){
             System.out.println("Haven't provided correct credentials");
             throw new Exception("Invalid credentials");
-
         }
 
         final UserDetails userDetails = customUserDetailsService.loadUserByUsername(request.getEmail());
         final String token = jwtUtility.generateToken(userDetails);
-
-
-
         return new JwtResponse(token);
     }
+
     @PostMapping(value="/register")
-    public String registerUser(@RequestBody RegisterRequest request){
+    public GenericResponse registerUser(@RequestBody RegisterRequest request){
 
         if(userRepository.existsByEmail(request.getEmail()))
-            return "User already exists.";
+            return new GenericResponse("User already exists");
 
         User user = new User(request.getEmail(), passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
 
-        return "User saved.";
+        return new GenericResponse("User registered");
 
 
     }

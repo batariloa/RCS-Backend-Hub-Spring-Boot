@@ -31,20 +31,8 @@ public class LoggedAccess {
         return username;
     }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
-
     public MemoryStatus getStatus() {
         return status;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public OperatingSystem getOperatingSystem() {
-        return operatingSystem;
     }
 
     public Long getId() {

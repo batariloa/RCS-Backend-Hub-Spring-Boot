@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface LoggedAccessRepository extends JpaRepository<LoggedAccess, Long> {
 
    LoggedAccess findTopByUsernameOrderByIdDesc(String username);
-
-
-
    boolean existsByUsername(String username);
 
 }

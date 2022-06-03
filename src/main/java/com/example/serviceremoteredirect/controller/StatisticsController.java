@@ -11,28 +11,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class StatisticsController {
 
-
     @Autowired
     LoggedAccessRepository loggedAccessRepository;
 
     @Autowired
     StatusManager statusManager;
-
     //Save client's access, and save users status locally
     @PostMapping("/status")
     String logAccess( @RequestBody LoggedAccess loggedAccess) {
-
-
-
         statusManager.updateStatusForUser(loggedAccess.getUsername(),loggedAccess.getStatus());
         loggedAccessRepository.save(loggedAccess);
         return "Statistics sent.";
     }
-
     //Get users latest status
     @GetMapping("/status")
     MemoryStatus getMemoryStatus(@RequestParam String username){
-
         return statusManager.getStatusForUser(username);
     }
 }

@@ -25,12 +25,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		JwtFilter jwtFilter;
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -58,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/authenticate","/controls*","/postStatus*","/publish/*" ,"/terminal*","/status*","/register")
+				.antMatchers("/authenticate")
 				.permitAll()
 				.anyRequest()
 				.authenticated()

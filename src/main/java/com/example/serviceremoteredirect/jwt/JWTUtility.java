@@ -33,18 +33,15 @@ public class JWTUtility implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
-
     //for retrieving any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
-
 
     //check if the token has expired
     private Boolean isTokenExpired(String token) {
@@ -52,13 +49,11 @@ public class JWTUtility implements Serializable {
         return expiration.before(new Date());
     }
 
-
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
     }
-
 
     //While we create the token
     //1. We define the claims of the token, issuer, expiration, subject and the ID

@@ -31,18 +31,17 @@ public class JpaIntegrationTest {
 
     loggedAccessRepository.save(loggedAccess);
     Assertions.assertNotNull(loggedAccess.getId());
-
     }
 
     @Test
     public void assertLoggedAccessIsUpdated() {
 
         LoggedAccess loggedAccess = LoggedAccess.builder()
-                .username("TestJPA")
+                .username("TestJPA2")
                 .build();
 
         loggedAccessRepository.save(loggedAccess);
-        Assertions.assertEquals(loggedAccess.getUsername(), "TestJPA");
+        Assertions.assertEquals(loggedAccess.getUsername(), "TestJPA2");
 
     }
 
