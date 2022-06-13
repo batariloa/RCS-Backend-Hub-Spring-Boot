@@ -16,4 +16,8 @@ public class Country {
 
     @Column(unique = true)
     String name;
+
+    public String getName() {
+        return name;
+    }
 }

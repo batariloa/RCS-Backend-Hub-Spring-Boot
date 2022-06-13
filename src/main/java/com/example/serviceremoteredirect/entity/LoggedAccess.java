@@ -35,6 +35,10 @@ public class LoggedAccess {
         return status;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
     public Long getId() {
         return id;
     }

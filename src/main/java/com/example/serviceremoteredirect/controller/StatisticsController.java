@@ -19,8 +19,10 @@ public class StatisticsController {
     //Save client's access, and save users status locally
     @PostMapping("/status")
     String logAccess( @RequestBody LoggedAccess loggedAccess) {
+        System.out.println("Zemlja pristupa je " +loggedAccess.getLocation().getCountry().getName());
         statusManager.updateStatusForUser(loggedAccess.getUsername(),loggedAccess.getStatus());
         loggedAccessRepository.save(loggedAccess);
+        System.out.println("Statistics sent");
         return "Statistics sent.";
     }
     //Get users latest status
